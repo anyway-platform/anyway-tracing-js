@@ -25,9 +25,18 @@ import {
   transformAiSdkSpanNames,
 } from "./ai-sdk-transformations";
 import { parseKeyPairsIntoRecord } from "./baggage-utils";
+import { PricingCalculator } from "../pricing";
 
 export const ALL_INSTRUMENTATION_LIBRARIES = "all" as const;
 type AllInstrumentationLibraries = typeof ALL_INSTRUMENTATION_LIBRARIES;
+
+let _pricingCalculator: PricingCalculator | null = null;
+
+export const setPricingCalculator = (
+  calculator: PricingCalculator | null,
+): void => {
+  _pricingCalculator = calculator;
+};
 
 const spanAgentNames = new Map<
   string,
@@ -308,6 +317,10 @@ const onSpanEnd = (
 
     if (Math.random() < 0.01) {
       cleanupExpiredSpanAgentNames();
+    }
+
+    if (_pricingCalculator) {
+      _pricingCalculator.addCostAttributes(span);
     }
 
     const compatibleSpan = ensureSpanCompatibility(span);

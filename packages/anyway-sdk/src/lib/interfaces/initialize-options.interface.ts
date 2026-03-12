@@ -149,4 +149,16 @@ export interface InitializeOptions {
    * This is used to configure the Google Cloud Trace Exporter.
    */
   gcpProjectId?: string;
+
+  /**
+   * Whether to calculate and add cost attributes to spans. Optional.
+   * Defaults to true.
+   */
+  pricingEnabled?: boolean;
+
+  /**
+   * Path to a custom pricing JSON file. Optional.
+   * If not set, uses the bundled default pricing data.
+   */
+  pricingJsonPath?: string;
 }

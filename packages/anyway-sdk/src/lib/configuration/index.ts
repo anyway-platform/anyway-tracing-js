@@ -4,6 +4,8 @@ import { startTracing } from "../tracing";
 import { initializeRegistry } from "../prompts/registry";
 import { diag, DiagConsoleLogger, DiagLogLevel } from "@opentelemetry/api";
 import { TraceloopClient } from "../client/traceloop-client";
+import { PricingCalculator, loadPricing } from "../pricing";
+import { setPricingCalculator } from "../tracing/span-processor";
 
 export let _configuration: InitializeOptions | undefined;
 let _client: TraceloopClient | undefined;
@@ -91,6 +93,17 @@ export const initialize = (options: InitializeOptions = {}) => {
     }
 
     startTracing(_configuration);
+  }
+
+  if (options.pricingEnabled !== false) {
+    try {
+      const pricingData = loadPricing(options.pricingJsonPath);
+      setPricingCalculator(new PricingCalculator(pricingData));
+    } catch (e) {
+      console.warn(
+        `[Traceloop] Failed to initialize pricing: ${(e as Error).message}`,
+      );
+    }
   }
 
   initializeRegistry(_configuration);

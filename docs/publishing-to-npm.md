@@ -14,7 +14,16 @@
 npm login
 ```
 
-### 2. Build and publish
+### 2. Bump version
+
+```bash
+cd packages/anyway-sdk
+npm version patch   # 0.22.8 → 0.22.9
+# or: npm version minor  # 0.22.8 → 0.23.0
+# or: npm version major  # 0.22.8 → 1.0.0
+```
+
+### 3. Build and publish
 
 The SDK depends on `@traceloop/*` packages via `workspace:*` links, which npm rejects. The scripts automatically convert these to version pins, build/publish, then restore `package.json`.
 
@@ -34,7 +43,7 @@ This builds the SDK and automatically restores `package.json` afterward.
 
 Both scripts back up `package.json` before modifying it and restore it automatically when done (even on failure).
 
-### 3. Verify
+### 4. Verify
 
 ```bash
 npm info @anyway-sh/node-server-sdk
