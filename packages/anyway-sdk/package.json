@@ -1,11 +1,11 @@
 {
-  "name": "@traceloop/node-server-sdk",
+  "name": "@anyway-sh/node-server-sdk",
   "version": "0.22.8",
-  "description": "Traceloop Software Development Kit (SDK) for Node.js",
+  "description": "Anyway Software Development Kit (SDK) for Node.js",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "repository": "traceloop/openllmetry-js",
+  "repository": "anyway-platform/anyway-tracing-js",
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint .",
@@ -17,7 +17,7 @@
     "nodejs",
     "tracing"
   ],
-  "author": "Traceloop",
+  "author": "Anyway",
   "license": "Apache-2.0",
   "engines": {
     "node": ">=18.0.0"
@@ -89,7 +89,7 @@
     "tslib": "^2.8.1",
     "uuid": "^11.1.0"
   },
-  "homepage": "https://github.com/traceloop/openllmetry-js/tree/main/packages/traceloop-sdk",
+  "homepage": "https://github.com/anyway-platform/anyway-tracing-js/tree/main/packages/anyway-sdk",
   "gitHead": "ef1e70d6037f7b5c061056ef2be16e3f55f02ed5",
   "devDependencies": {
     "@ai-sdk/amazon-bedrock": "^3.0.10",
