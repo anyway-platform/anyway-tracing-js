@@ -1,4 +1,5 @@
 import { PricingData } from "./calculator";
+import defaultPricing from "./data/default_pricing.json";
 
 export function loadPricing(pricingJsonPath?: string): PricingData {
   if (pricingJsonPath) {
@@ -6,5 +7,5 @@ export function loadPricing(pricingJsonPath?: string): PricingData {
     const fs = require("fs");
     return JSON.parse(fs.readFileSync(pricingJsonPath, "utf-8"));
   }
-  return require("./data/default_pricing.json");
+  return defaultPricing as PricingData;
 }
