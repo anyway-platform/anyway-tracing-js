@@ -17,7 +17,7 @@ import {
   type TaskInput,
   type TaskOutput,
   type TaskResponse,
-} from "@traceloop/node-server-sdk";
+} from "@anyway-sh/node-server-sdk";
 
 // Initialize OpenAI client
 const openai = new OpenAI({

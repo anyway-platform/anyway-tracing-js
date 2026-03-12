@@ -37,11 +37,11 @@ describe("Experiment Export Tests", () => {
   before(async function () {
     const apiKey =
       process.env.RECORD_MODE === "NEW"
-        ? process.env.TRACELOOP_API_KEY!
+        ? process.env.ANYWAY_API_KEY!
         : "test-key";
     const baseUrl =
       process.env.RECORD_MODE === "NEW"
-        ? process.env.TRACELOOP_BASE_URL!
+        ? process.env.ANYWAY_BASE_URL!
         : "https://api-staging.traceloop.com";
 
     client = new traceloop.TraceloopClient({

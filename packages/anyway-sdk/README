@@ -1,0 +1,35 @@
+# Anyway SDK for Node.js
+
+[![Apache License][license-image]][license-image]
+
+Anyway Tracing JS is a set of extensions built on top of [OpenTelemetry](https://opentelemetry.io/) that gives you complete observability over your LLM application. Because it uses OpenTelemetry under the hood, it can be connected to your existing observability solutions - Datadog, Honeycomb, and others.
+
+## Getting Started
+
+Install the SDK:
+
+```shell
+npm install --save @anyway-sh/node-server-sdk
+```
+
+Then, to start instrumenting your code, just add these 2 lines to your code:
+
+```js
+import * as traceloop from "@anyway-sh/node-server-sdk";
+
+traceloop.initialize();
+```
+
+Make sure to `import` the SDK before importing any LLM module.
+
+## Useful links
+
+- For more information on OpenTelemetry, visit: <https://opentelemetry.io/>
+- For more about OpenTelemetry JavaScript: <https://github.com/open-telemetry/opentelemetry-js>
+
+## License
+
+Apache 2.0 - See [LICENSE][license-url] for more information.
+
+[license-url]: https://github.com/anyway-platform/anyway-tracing-js/blob/main/LICENSE
+[license-image]: https://img.shields.io/badge/license-Apache_2.0-green.svg?style=flat

@@ -1,4 +1,4 @@
-import * as traceloop from "@traceloop/node-server-sdk";
+import * as traceloop from "@anyway-sh/node-server-sdk";
 import { trace, Span, context } from "@opentelemetry/api";
 import { ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
 

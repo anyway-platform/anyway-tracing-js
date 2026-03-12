@@ -50,13 +50,13 @@ const cleanupExpiredSpanAgentNames = (): void => {
 export interface SpanProcessorOptions {
   /**
    * The API Key for sending traces data. Optional.
-   * Defaults to the TRACELOOP_API_KEY environment variable.
+   * Defaults to the ANYWAY_API_KEY environment variable.
    */
   apiKey?: string;
 
   /**
    * The OTLP endpoint for sending traces data. Optional.
-   * Defaults to TRACELOOP_BASE_URL environment variable or https://api.traceloop.com/
+   * Defaults to ANYWAY_BASE_URL environment variable or https://api.traceloop.com/
    */
   baseUrl?: string;
 
@@ -96,11 +96,11 @@ export interface SpanProcessorOptions {
 export const createSpanProcessor = (
   options: SpanProcessorOptions,
 ): SpanProcessor => {
-  const url = `${options.baseUrl || process.env.TRACELOOP_BASE_URL || "https://api.traceloop.com"}/v1/traces`;
+  const url = `${options.baseUrl || process.env.ANYWAY_BASE_URL || "https://api.traceloop.com"}/v1/traces`;
   const headers =
     options.headers ||
-    (process.env.TRACELOOP_HEADERS
-      ? parseKeyPairsIntoRecord(process.env.TRACELOOP_HEADERS)
+    (process.env.ANYWAY_HEADERS
+      ? parseKeyPairsIntoRecord(process.env.ANYWAY_HEADERS)
       : { Authorization: `Bearer ${options.apiKey}` });
 
   const traceExporter =
@@ -138,7 +138,7 @@ export const createSpanProcessor = (
 
 export const traceloopInstrumentationLibraries = [
   "ai",
-  "@traceloop/node-server-sdk",
+  "@anyway-sh/node-server-sdk",
   "@traceloop/instrumentation-openai",
   "@traceloop/instrumentation-langchain",
   "@traceloop/instrumentation-chroma",

@@ -25,13 +25,13 @@ export interface InitializeOptions {
 
   /**
    * The API Key for sending traces data. Optional.
-   * Defaults to the TRACELOOP_API_KEY environment variable.
+   * Defaults to the ANYWAY_API_KEY environment variable.
    */
   apiKey?: string;
 
   /**
    * The OTLP endpoint for sending traces data. Optional.
-   * Defaults to TRACELOOP_BASE_URL environment variable or https://api.traceloop.com/
+   * Defaults to ANYWAY_BASE_URL environment variable or https://api.traceloop.com/
    */
   baseUrl?: string;
 
@@ -104,25 +104,25 @@ export interface InitializeOptions {
 
   /**
    * Enables sync with Traceloop servers for the prompt registry functionality. Optional.
-   * Defaults to TRACELOOP_SYNC_ENABLED environment variable or true if not set.
+   * Defaults to ANYWAY_SYNC_ENABLED environment variable or true if not set.
    */
   traceloopSyncEnabled?: boolean;
 
   /**
    * Defines the number of retires when fetching prompt data for the registry. Optional.
-   * Defaults to TRACELOOP_SYNC_MAX_RETRIES environment variable or 3 if not set.
+   * Defaults to ANYWAY_SYNC_MAX_RETRIES environment variable or 3 if not set.
    */
   traceloopSyncMaxRetries?: number;
 
   /**
    * Defines the polling interval for the prompt registry. Optional.
-   * Defaults to TRACELOOP_SYNC_POLLING_INTERVAL environment variable or 60 if not set.
+   * Defaults to ANYWAY_SYNC_POLLING_INTERVAL environment variable or 60 if not set.
    */
   traceloopSyncPollingInterval?: number;
 
   /**
    * Defines the polling interval for the prompt registry. Optional.
-   * Defaults to TRACELOOP_SYNC_DEV_POLLING_INTERVAL environment variable or 5 if not set.
+   * Defaults to ANYWAY_SYNC_DEV_POLLING_INTERVAL environment variable or 5 if not set.
    */
   traceloopSyncDevPollingInterval?: number;
 
@@ -140,7 +140,7 @@ export interface InitializeOptions {
 
   /**
    * The experiment slug to use when running experiments. Optional.
-   * Defaults to the TRACELOOP_EXP_SLUG environment variable.
+   * Defaults to the ANYWAY_EXP_SLUG environment variable.
    */
   experimentSlug?: string;
 

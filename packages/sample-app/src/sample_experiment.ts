@@ -1,4 +1,4 @@
-import * as traceloop from "@traceloop/node-server-sdk";
+import * as traceloop from "@anyway-sh/node-server-sdk";
 import { OpenAI } from "openai";
 import { provideMedicalInfoPrompt } from "./medical_prompts";
 import { refuseMedicalAdvicePrompt } from "./medical_prompts";
@@ -6,7 +6,7 @@ import type {
   ExperimentTaskFunction,
   TaskInput,
   TaskOutput,
-} from "@traceloop/node-server-sdk";
+} from "@anyway-sh/node-server-sdk";
 import fs from "fs";
 import "dotenv/config";
 

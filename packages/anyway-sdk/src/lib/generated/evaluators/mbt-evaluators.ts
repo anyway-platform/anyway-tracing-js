@@ -81,7 +81,7 @@ export function getEvaluatorSchemaInfo(slug: EvaluatorSlug): EvaluatorSchema | u
  *
  * @example
  * ```typescript
- * import { EvaluatorMadeByTraceloop } from '@traceloop/node-server-sdk';
+ * import { EvaluatorMadeByTraceloop } from '@anyway-sh/node-server-sdk';
  *
  * const evaluators = [
  *   EvaluatorMadeByTraceloop.piiDetector({ probability_threshold: 0.8 }),

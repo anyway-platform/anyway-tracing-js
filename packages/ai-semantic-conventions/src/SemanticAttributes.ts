@@ -43,14 +43,14 @@ export const SpanAttributes = {
   VECTOR_DB_GET_INCLUDE_VALUES: "db.vector.get.include_values",
 
   // LLM Workflows
-  TRACELOOP_SPAN_KIND: "traceloop.span.kind",
-  TRACELOOP_WORKFLOW_NAME: "traceloop.workflow.name",
-  TRACELOOP_ENTITY_NAME: "traceloop.entity.name",
-  TRACELOOP_ENTITY_PATH: "traceloop.entity.path",
-  TRACELOOP_ENTITY_VERSION: "traceloop.entity.version",
-  TRACELOOP_ASSOCIATION_PROPERTIES: "traceloop.association.properties",
-  TRACELOOP_ENTITY_INPUT: "traceloop.entity.input",
-  TRACELOOP_ENTITY_OUTPUT: "traceloop.entity.output",
+  TRACELOOP_SPAN_KIND: "anyway.span.kind",
+  TRACELOOP_WORKFLOW_NAME: "anyway.workflow.name",
+  TRACELOOP_ENTITY_NAME: "anyway.entity.name",
+  TRACELOOP_ENTITY_PATH: "anyway.entity.path",
+  TRACELOOP_ENTITY_VERSION: "anyway.entity.version",
+  TRACELOOP_ASSOCIATION_PROPERTIES: "anyway.association.properties",
+  TRACELOOP_ENTITY_INPUT: "anyway.entity.input",
+  TRACELOOP_ENTITY_OUTPUT: "anyway.entity.output",
 
   // MCP (Model Context Protocol)
   MCP_RESPONSE_VALUE: "mcp.response.value",

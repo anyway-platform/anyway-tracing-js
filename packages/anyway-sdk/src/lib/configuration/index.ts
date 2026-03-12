@@ -31,22 +31,22 @@ export const initialize = (options: InitializeOptions = {}) => {
 
   if (!options.baseUrl) {
     options.baseUrl =
-      process.env.TRACELOOP_BASE_URL || "https://api.traceloop.com";
+      process.env.ANYWAY_BASE_URL || "https://api.traceloop.com";
   }
   if (!options.apiKey) {
-    options.apiKey = process.env.TRACELOOP_API_KEY;
+    options.apiKey = process.env.ANYWAY_API_KEY;
   }
   if (!options.appName) {
     options.appName = process.env.npm_package_name;
   }
   if (!options.experimentSlug) {
-    options.experimentSlug = process.env.TRACELOOP_EXP_SLUG;
+    options.experimentSlug = process.env.ANYWAY_EXP_SLUG;
   }
 
   if (options.traceloopSyncEnabled === undefined) {
-    if (process.env.TRACELOOP_SYNC_ENABLED !== undefined) {
+    if (process.env.ANYWAY_SYNC_ENABLED !== undefined) {
       options.traceloopSyncEnabled = ["1", "true"].includes(
-        process.env.TRACELOOP_SYNC_ENABLED.toLowerCase(),
+        process.env.ANYWAY_SYNC_ENABLED.toLowerCase(),
       );
     } else {
       options.traceloopSyncEnabled = true;
@@ -56,17 +56,17 @@ export const initialize = (options: InitializeOptions = {}) => {
   if (options.traceloopSyncEnabled) {
     if (!options.traceloopSyncMaxRetries) {
       options.traceloopSyncMaxRetries =
-        Number(process.env.TRACELOOP_SYNC_MAX_RETRIES) || 3;
+        Number(process.env.ANYWAY_SYNC_MAX_RETRIES) || 3;
     }
 
     if (!options.traceloopSyncPollingInterval) {
       options.traceloopSyncPollingInterval =
-        Number(process.env.TRACELOOP_SYNC_POLLING_INTERVAL) || 60;
+        Number(process.env.ANYWAY_SYNC_POLLING_INTERVAL) || 60;
     }
 
     if (!options.traceloopSyncDevPollingInterval) {
       options.traceloopSyncDevPollingInterval =
-        Number(process.env.TRACELOOP_SYNC_DEV_POLLING_INTERVAL) || 5;
+        Number(process.env.ANYWAY_SYNC_DEV_POLLING_INTERVAL) || 5;
     }
   }
 

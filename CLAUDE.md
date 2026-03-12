@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-OpenLLMetry-JS is a JavaScript/TypeScript observability framework for LLM applications, built on OpenTelemetry. It provides instrumentation for major LLM providers (OpenAI, Anthropic, etc.) and vector databases, with a unified SDK for easy integration.
+Anyway Tracing JS is a JavaScript/TypeScript observability framework for LLM applications, built on OpenTelemetry. It provides instrumentation for major LLM providers (OpenAI, Anthropic, etc.) and vector databases, with a unified SDK for easy integration.
+
+Forked from [Traceloop's OpenLLMetry-JS](https://github.com/traceloop/openllmetry-js).
 
 ## Development Commands
 
@@ -26,7 +28,7 @@ Each package has its own test command:
 
 ```bash
 # Test individual packages
-cd packages/traceloop-sdk
+cd packages/anyway-sdk
 pnpm test
 
 # Test specific instrumentation
@@ -41,7 +43,7 @@ You can also use nx to run tests:
 pnpm nx run-many -t test
 
 # Test specific package by name
-pnpm nx test @traceloop/node-server-sdk
+pnpm nx test @anyway-sh/node-server-sdk
 
 # Test only affected packages
 pnpm nx affected -t test
@@ -53,7 +55,7 @@ pnpm nx run-many -t test --projects="*instrumentation*"
 pnpm nx run-many -t test --parallel
 
 # Watch mode for development
-pnpm nx test @traceloop/node-server-sdk --watch
+pnpm nx test @anyway-sh/node-server-sdk --watch
 ```
 
 ### Linting
@@ -77,10 +79,10 @@ pnpm lint:fix
 
 ### Core Packages
 
-#### `traceloop-sdk` (Main SDK)
+#### `anyway-sdk` (Main SDK)
 
-- **Path**: `packages/traceloop-sdk/`
-- **Exports**: `@traceloop/node-server-sdk`
+- **Path**: `packages/anyway-sdk/`
+- **Exports**: `@anyway-sh/node-server-sdk`
 - **Purpose**: Primary entry point that orchestrates all instrumentations
 - **Key Files**:
   - `src/lib/tracing/decorators.ts`: Workflow and task decorators (`@workflow`, `@task`, `@agent`)
@@ -139,17 +141,11 @@ async function myTask() { }
 ### Manual Instrumentation
 
 ```typescript
-import { trace } from "@traceloop/node-server-sdk";
+import { trace } from "@anyway-sh/node-server-sdk";
 const span = trace.withLLMSpan("my-llm-call", () => {
   // LLM operations
 });
 ```
-
-### Telemetry Configuration
-
-- Anonymous telemetry enabled by default
-- Opt-out via `TRACELOOP_TELEMETRY=FALSE` environment variable
-- Only collected in SDK, not individual instrumentations
 
 ## Common Development Tasks
 
@@ -157,7 +153,7 @@ const span = trace.withLLMSpan("my-llm-call", () => {
 
 1. Create new instrumentation package in `packages/instrumentation-[provider]/`
 2. Implement instrumentation extending `InstrumentationBase`
-3. Add to main SDK dependencies in `packages/traceloop-sdk/package.json`
+3. Add to main SDK dependencies in `packages/anyway-sdk/package.json`
 4. Register in SDK initialization
 
 ### Running Single Test

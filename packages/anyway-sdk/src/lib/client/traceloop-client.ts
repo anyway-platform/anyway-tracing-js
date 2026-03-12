@@ -40,7 +40,7 @@ export class TraceloopClient {
     this.appName = options.appName;
     this.baseUrl =
       options.baseUrl ||
-      process.env.TRACELOOP_BASE_URL ||
+      process.env.ANYWAY_BASE_URL ||
       "https://api.traceloop.com";
     this.experimentSlug = options.experimentSlug;
 

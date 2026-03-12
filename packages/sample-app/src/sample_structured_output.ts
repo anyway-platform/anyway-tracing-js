@@ -1,4 +1,4 @@
-import * as traceloop from "@traceloop/node-server-sdk";
+import * as traceloop from "@anyway-sh/node-server-sdk";
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { z } from "zod";

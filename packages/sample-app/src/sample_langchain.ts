@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-import * as traceloop from "@traceloop/node-server-sdk";
+import * as traceloop from "@anyway-sh/node-server-sdk";
 
 import { HNSWLib } from "@langchain/community/vectorstores/hnswlib";
 import { OpenAIEmbeddings, OpenAI } from "@langchain/openai";

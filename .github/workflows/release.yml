@@ -1,4 +1,4 @@
-name: Release - Traceloop SDK & Standalone Instrumentations
+name: Release - Anyway SDK & Standalone Instrumentations
 
 on:
   workflow_dispatch:

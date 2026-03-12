@@ -7,12 +7,12 @@
  * This evaluator helps ensure your AI agents perform optimally and follow the expected tool trajectory.
  */
 
-import * as traceloop from "@traceloop/node-server-sdk";
+import * as traceloop from "@anyway-sh/node-server-sdk";
 import type {
   ExperimentTaskFunction,
   TaskInput,
   TaskOutput,
-} from "@traceloop/node-server-sdk";
+} from "@anyway-sh/node-server-sdk";
 
 import "dotenv/config";
 

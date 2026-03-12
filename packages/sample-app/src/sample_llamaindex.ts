@@ -1,4 +1,4 @@
-import * as traceloop from "@traceloop/node-server-sdk";
+import * as traceloop from "@anyway-sh/node-server-sdk";
 import { VectorStoreIndex, Document, Settings } from "llamaindex";
 import { OpenAIEmbedding, OpenAI } from "@llamaindex/openai";
 import { readFile } from "fs/promises";

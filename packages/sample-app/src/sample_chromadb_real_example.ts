@@ -1,4 +1,4 @@
-// import * as traceloop from "@traceloop/node-server-sdk";
+// import * as traceloop from "@anyway-sh/node-server-sdk";
 // import { ChromaClient, IncludeEnum, OpenAIEmbeddingFunction } from "chromadb";
 // import OpenAI from "openai";
 // import fs from "fs";

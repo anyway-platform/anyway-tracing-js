@@ -54,7 +54,7 @@ export const initInstrumentations = (apiKey?: string, baseUrl?: string) => {
     console.debug("[Traceloop] Instrumentation exception:", e.message);
   };
   const enrichTokens =
-    (process.env.TRACELOOP_ENRICH_TOKENS || "true").toLowerCase() === "true";
+    (process.env.ANYWAY_ENRICH_TOKENS || "true").toLowerCase() === "true";
 
   // Create image upload callback if we have credentials
   let uploadBase64ImageCallback;
@@ -138,7 +138,7 @@ export const manuallyInitInstrumentations = (
     console.debug("[Traceloop] Instrumentation exception:", e.message);
   };
   const enrichTokens =
-    (process.env.TRACELOOP_ENRICH_TOKENS || "true").toLowerCase() === "true";
+    (process.env.ANYWAY_ENRICH_TOKENS || "true").toLowerCase() === "true";
 
   // Create image upload callback if we have credentials
   let uploadBase64ImageCallback;
@@ -254,10 +254,10 @@ export const manuallyInitInstrumentations = (
  * @throws {InitializationError} if the configuration is invalid or if failed to fetch feature data.
  */
 export const startTracing = (options: InitializeOptions) => {
-  const apiKey = options.apiKey || process.env.TRACELOOP_API_KEY;
+  const apiKey = options.apiKey || process.env.ANYWAY_API_KEY;
   const baseUrl =
     options.baseUrl ||
-    process.env.TRACELOOP_BASE_URL ||
+    process.env.ANYWAY_BASE_URL ||
     "https://api.traceloop.com";
 
   if (Object.keys(options.instrumentModules || {}).length > 0) {
@@ -295,8 +295,8 @@ export const startTracing = (options: InitializeOptions) => {
 
   const headers =
     options.headers ||
-    (process.env.TRACELOOP_HEADERS
-      ? parseKeyPairsIntoRecord(process.env.TRACELOOP_HEADERS)
+    (process.env.ANYWAY_HEADERS
+      ? parseKeyPairsIntoRecord(process.env.ANYWAY_HEADERS)
       : { Authorization: `Bearer ${options.apiKey}` });
 
   const traceExporter =
@@ -357,7 +357,7 @@ export const shouldSendTraces = () => {
 
   if (
     _configuration.traceContent === false ||
-    (process.env.TRACELOOP_TRACE_CONTENT || "true").toLowerCase() === "false"
+    (process.env.ANYWAY_TRACE_CONTENT || "true").toLowerCase() === "false"
   ) {
     return false;
   }

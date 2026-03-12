@@ -1,5 +1,5 @@
 import "dotenv/config";
-import * as traceloop from "@traceloop/node-server-sdk";
+import * as traceloop from "@anyway-sh/node-server-sdk";
 
 traceloop.initialize({
   appName: "sample_langchain_bedrock",
