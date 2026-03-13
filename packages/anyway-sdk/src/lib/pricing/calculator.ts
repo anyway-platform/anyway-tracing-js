@@ -4,6 +4,8 @@ import {
   ATTR_GEN_AI_RESPONSE_MODEL,
   ATTR_GEN_AI_USAGE_INPUT_TOKENS,
   ATTR_GEN_AI_USAGE_OUTPUT_TOKENS,
+  ATTR_GEN_AI_USAGE_PROMPT_TOKENS,
+  ATTR_GEN_AI_USAGE_COMPLETION_TOKENS,
 } from "@opentelemetry/semantic-conventions/incubating";
 
 interface NormalizedPricing {
@@ -75,12 +77,10 @@ export class PricingCalculator {
       (attrs[ATTR_GEN_AI_REQUEST_MODEL] as string);
     if (!model) return;
 
-    const inputTokens = attrs[ATTR_GEN_AI_USAGE_INPUT_TOKENS] as
-      | number
-      | undefined;
-    const outputTokens = attrs[ATTR_GEN_AI_USAGE_OUTPUT_TOKENS] as
-      | number
-      | undefined;
+    const inputTokens = (attrs[ATTR_GEN_AI_USAGE_INPUT_TOKENS] ??
+      attrs[ATTR_GEN_AI_USAGE_PROMPT_TOKENS]) as number | undefined;
+    const outputTokens = (attrs[ATTR_GEN_AI_USAGE_OUTPUT_TOKENS] ??
+      attrs[ATTR_GEN_AI_USAGE_COMPLETION_TOKENS]) as number | undefined;
 
     if (inputTokens == null && outputTokens == null) return;
 
