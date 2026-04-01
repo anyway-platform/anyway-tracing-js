@@ -66,7 +66,7 @@ export interface SpanProcessorOptions {
 
   /**
    * The OTLP endpoint for sending traces data. Optional.
-   * Defaults to ANYWAY_BASE_URL environment variable or https://api.traceloop.com/
+   * Defaults to ANYWAY_BASE_URL environment variable or https://collector.anyway.sh
    */
   baseUrl?: string;
 
