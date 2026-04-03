@@ -6,6 +6,7 @@ import { diag, DiagConsoleLogger, DiagLogLevel } from "@opentelemetry/api";
 import { TraceloopClient } from "../client/traceloop-client";
 import { PricingCalculator, loadPricing } from "../pricing";
 import { setPricingCalculator } from "../tracing/span-processor";
+import { normalizeBaseUrl } from "../utils/url";
 
 export let _configuration: InitializeOptions | undefined;
 let _client: TraceloopClient | undefined;
@@ -31,10 +32,12 @@ export const initialize = (options: InitializeOptions = {}) => {
     return;
   }
 
+  // Normalize baseUrl: remove trailing slashes
   if (!options.baseUrl) {
     options.baseUrl =
-      process.env.ANYWAY_BASE_URL || "https://api.traceloop.com";
+      process.env.ANYWAY_BASE_URL || "https://collector.anyway.sh";
   }
+  options.baseUrl = normalizeBaseUrl(options.baseUrl);
   if (!options.apiKey) {
     options.apiKey = process.env.ANYWAY_API_KEY;
   }

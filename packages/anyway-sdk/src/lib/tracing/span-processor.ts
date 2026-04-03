@@ -26,6 +26,7 @@ import {
 } from "./ai-sdk-transformations";
 import { parseKeyPairsIntoRecord } from "./baggage-utils";
 import { PricingCalculator } from "../pricing";
+import { normalizeBaseUrl } from "../utils/url";
 
 export const ALL_INSTRUMENTATION_LIBRARIES = "all" as const;
 type AllInstrumentationLibraries = typeof ALL_INSTRUMENTATION_LIBRARIES;
@@ -65,7 +66,7 @@ export interface SpanProcessorOptions {
 
   /**
    * The OTLP endpoint for sending traces data. Optional.
-   * Defaults to ANYWAY_BASE_URL environment variable or https://api.traceloop.com/
+   * Defaults to ANYWAY_BASE_URL environment variable or https://collector.anyway.sh
    */
   baseUrl?: string;
 
@@ -105,7 +106,10 @@ export interface SpanProcessorOptions {
 export const createSpanProcessor = (
   options: SpanProcessorOptions,
 ): SpanProcessor => {
-  const url = `${options.baseUrl || process.env.ANYWAY_BASE_URL || "https://api.traceloop.com"}/v1/traces`;
+  const baseUrl = normalizeBaseUrl(
+    options.baseUrl || process.env.ANYWAY_BASE_URL || "https://collector.anyway.sh"
+  );
+  const url = `${baseUrl}/v1/traces`;
   const headers =
     options.headers ||
     (process.env.ANYWAY_HEADERS

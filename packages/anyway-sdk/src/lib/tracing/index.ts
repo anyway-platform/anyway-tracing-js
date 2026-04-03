@@ -30,6 +30,7 @@ import {
 } from "./span-processor";
 import { parseKeyPairsIntoRecord } from "./baggage-utils";
 import { ImageUploader } from "../images";
+import { normalizeBaseUrl } from "../utils/url";
 
 let _sdk: NodeSDK;
 let _spanProcessor: SpanProcessor;
@@ -255,10 +256,11 @@ export const manuallyInitInstrumentations = (
  */
 export const startTracing = (options: InitializeOptions) => {
   const apiKey = options.apiKey || process.env.ANYWAY_API_KEY;
-  const baseUrl =
+  const baseUrl = normalizeBaseUrl(
     options.baseUrl ||
     process.env.ANYWAY_BASE_URL ||
-    "https://api.traceloop.com";
+    "https://collector.anyway.sh"
+  );
 
   if (Object.keys(options.instrumentModules || {}).length > 0) {
     manuallyInitInstrumentations(options.instrumentModules, apiKey, baseUrl);

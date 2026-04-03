@@ -4,6 +4,7 @@ import { UserFeedback } from "./annotation/user-feedback";
 import { Datasets } from "./dataset/datasets";
 import { Experiment } from "./experiment/experiment";
 import { Evaluator } from "./evaluator/evaluator";
+import { normalizeBaseUrl } from "../utils/url";
 
 /**
  * The main client for interacting with Traceloop's API.
@@ -38,10 +39,11 @@ export class TraceloopClient {
   constructor(options: TraceloopClientOptions) {
     this.apiKey = options.apiKey;
     this.appName = options.appName;
-    this.baseUrl =
+    this.baseUrl = normalizeBaseUrl(
       options.baseUrl ||
       process.env.ANYWAY_BASE_URL ||
-      "https://api.traceloop.com";
+      "https://collector.anyway.sh"
+    );
     this.experimentSlug = options.experimentSlug;
 
     this.userFeedback = new UserFeedback(this);

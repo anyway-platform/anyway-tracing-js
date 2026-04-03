@@ -1,3 +1,5 @@
+import { normalizeBaseUrl } from "../utils/url";
+
 export interface ImageUploadResponse {
   url: string;
 }
@@ -11,7 +13,7 @@ export class ImageUploader {
   private apiKey: string;
 
   constructor(baseUrl: string, apiKey: string) {
-    this.baseUrl = baseUrl;
+    this.baseUrl = normalizeBaseUrl(baseUrl);
     this.apiKey = apiKey;
   }
 
