@@ -84,7 +84,7 @@ class InteractiveChatbot {
       name: "chat_interaction",
       conversationId: self.conversationId, // <-- Using conversationId in config
       associationProperties: {
-        [traceloop.AssociationProperty.CUSTOMER_ID]: self.userId,
+        [traceloop.AssociationProperty.USER_ID]: self.userId,
       },
     };
   })

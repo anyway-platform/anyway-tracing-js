@@ -82,7 +82,7 @@ class InteractiveChatbot {
     return {
       name: "chat_interaction",
       associationProperties: {
-        [traceloop.AssociationProperty.CUSTOMER_ID]: self.userId,
+        [traceloop.AssociationProperty.USER_ID]: self.userId,
       },
     };
   })

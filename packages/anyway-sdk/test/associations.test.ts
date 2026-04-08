@@ -74,8 +74,9 @@ describe("Test Associations API", () => {
   it("should set multiple associations at once", async () => {
     await traceloop.withAssociationProperties(
       {
-        [traceloop.AssociationProperty.CUSTOMER_ID]: "user-456",
+        [traceloop.AssociationProperty.USER_ID]: "user-456",
         [traceloop.AssociationProperty.SESSION_ID]: "session-789",
+        [traceloop.AssociationProperty.CUSTOMER_ID]: "customer-999",
       },
       async () => {
         await traceloop.withWorkflow(
@@ -101,7 +102,7 @@ describe("Test Associations API", () => {
 
     assert.strictEqual(
       workflowSpan.attributes[
-        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.customer_id`
+        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.user_id`
       ],
       "user-456",
     );
@@ -111,10 +112,16 @@ describe("Test Associations API", () => {
       ],
       "session-789",
     );
+    assert.strictEqual(
+      workflowSpan.attributes[
+        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.customer_id`
+      ],
+      "customer-999",
+    );
 
     assert.strictEqual(
       taskSpan.attributes[
-        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.customer_id`
+        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.user_id`
       ],
       "user-456",
     );
@@ -124,6 +131,12 @@ describe("Test Associations API", () => {
       ],
       "session-789",
     );
+    assert.strictEqual(
+      taskSpan.attributes[
+        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.customer_id`
+      ],
+      "customer-999",
+    );
   });
 
   it("should set associations via decorator associationProperties config", async () => {
@@ -132,7 +145,7 @@ describe("Test Associations API", () => {
         name: "test_decorator_associations",
         associationProperties: {
           [traceloop.AssociationProperty.SESSION_ID]: "conv-abc",
-          [traceloop.AssociationProperty.CUSTOMER_ID]: "user-xyz",
+          [traceloop.AssociationProperty.USER_ID]: "user-xyz",
         },
       },
       async () => {
@@ -158,7 +171,7 @@ describe("Test Associations API", () => {
     );
     assert.strictEqual(
       workflowSpan.attributes[
-        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.customer_id`
+        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.user_id`
       ],
       "user-xyz",
     );
@@ -171,7 +184,7 @@ describe("Test Associations API", () => {
     );
     assert.strictEqual(
       taskSpan.attributes[
-        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.customer_id`
+        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.user_id`
       ],
       "user-xyz",
     );
@@ -181,7 +194,9 @@ describe("Test Associations API", () => {
     await traceloop.withAssociationProperties(
       {
         [traceloop.AssociationProperty.SESSION_ID]: "session-1",
-        [traceloop.AssociationProperty.CUSTOMER_ID]: "user-3",
+        [traceloop.AssociationProperty.CUSTOMER_ID]: "customer-2",
+        [traceloop.AssociationProperty.USER_ID]: "user-3",
+        [traceloop.AssociationProperty.ORDER_ID]: "order-4",
       },
       async () => {
         await traceloop.withWorkflow(
@@ -207,7 +222,19 @@ describe("Test Associations API", () => {
       workflowSpan.attributes[
         `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.customer_id`
       ],
+      "customer-2",
+    );
+    assert.strictEqual(
+      workflowSpan.attributes[
+        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.user_id`
+      ],
       "user-3",
+    );
+    assert.strictEqual(
+      workflowSpan.attributes[
+        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.order_id`
+      ],
+      "order-4",
     );
   });
 
@@ -224,7 +251,7 @@ describe("Test Associations API", () => {
 
           await traceloop.withAssociationProperties(
             {
-              [traceloop.AssociationProperty.CUSTOMER_ID]: "user-123",
+              [traceloop.AssociationProperty.USER_ID]: "user-123",
             },
             async () => {
               await traceloop.withTask({ name: "task_2" }, async () => {
@@ -252,15 +279,15 @@ describe("Test Associations API", () => {
     );
     assert.strictEqual(
       task1Span.attributes[
-        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.customer_id`
+        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.user_id`
       ],
       undefined,
     );
 
-    // task_2 should have customer_id from inner context
+    // task_2 should have user_id from inner context
     assert.strictEqual(
       task2Span.attributes[
-        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.customer_id`
+        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.user_id`
       ],
       "user-123",
     );
