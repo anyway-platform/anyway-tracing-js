@@ -1,4 +1,4 @@
-name: Release - OpenTelemetry v1 Compatible
+name: Release - Anyway SDK & Standalone Instrumentations
 
 on:
   workflow_dispatch:
@@ -9,11 +9,20 @@ jobs:
     permissions:
       id-token: write
     steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.OSS_CI_BOT_APP_ID }}
+          private-key: ${{ secrets.OSS_CI_BOT_PRIVATE_KEY }}
+          repositories: ${{ github.event.repository.name }}
+
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
           fetch-depth: 0
           ref: ${{ github.ref }}
+          token: ${{ steps.app-token.outputs.token }}
 
       - uses: pnpm/action-setup@v2
         with:
@@ -29,19 +38,22 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git remote set-url origin https://github-actions[bot]:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-      - name: Create Version with OTel v1 suffix
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+      - name: Create Version
+        run: pnpm lerna version --no-private --conventional-commits --yes
+      - name: Set Current Version
         run: |
-          # Get the current version and add -otel-v1 suffix
           CURRENT_VERSION=$(node -p 'require("./lerna.json").version')
-          NEW_VERSION="${CURRENT_VERSION}-otel-v1"
-          echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
-          # Update versions and commit changes
-          pnpm lerna version $NEW_VERSION --no-private --no-push --yes
-          git add .
-          git commit -m "chore: version bump to ${NEW_VERSION} for otel-v1 release"
+          echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: "CHANGELOG.md"
+          tag_name: ${{ env.CURRENT_VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
       - name: "NPM Identity"
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -49,7 +61,5 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
       - name: Build for Release
         run: pnpm nx run-many --target=build --parallel=3
-      - name: Publish with otel-v1 tag
-        run: |
-          # Publish all packages with otel-v1 dist-tag
-          pnpm lerna publish from-git --dist-tag otel-v1 --no-private --yes
+      - name: Publish
+        run: pnpm lerna publish --no-private from-git --yes
