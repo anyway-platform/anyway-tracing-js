@@ -196,6 +196,7 @@ describe("Test Associations API", () => {
         [traceloop.AssociationProperty.SESSION_ID]: "session-1",
         [traceloop.AssociationProperty.CUSTOMER_ID]: "customer-2",
         [traceloop.AssociationProperty.USER_ID]: "user-3",
+        [traceloop.AssociationProperty.ORDER_ID]: "order-4",
       },
       async () => {
         await traceloop.withWorkflow(
@@ -228,6 +229,12 @@ describe("Test Associations API", () => {
         `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.user_id`
       ],
       "user-3",
+    );
+    assert.strictEqual(
+      workflowSpan.attributes[
+        `${SpanAttributes.TRACELOOP_ASSOCIATION_PROPERTIES}.order_id`
+      ],
+      "order-4",
     );
   });
 
