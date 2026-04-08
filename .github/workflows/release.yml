@@ -1,65 +1,72 @@
-name: Release - Anyway SDK & Standalone Instrumentations
+name: Release - Anyway Node SDK
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to publish (e.g. 0.23.2). Leave empty to use current version in package.json."
+        required: false
+        type: string
 
 jobs:
   release:
+    name: Build & Publish to npm
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
+      contents: write
     steps:
-      - name: Generate GitHub App Token
-        id: app-token
-        uses: actions/create-github-app-token@v2
-        with:
-          app-id: ${{ secrets.OSS_CI_BOT_APP_ID }}
-          private-key: ${{ secrets.OSS_CI_BOT_PRIVATE_KEY }}
-          repositories: ${{ github.event.repository.name }}
-
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-          ref: ${{ github.ref }}
-          token: ${{ steps.app-token.outputs.token }}
 
       - uses: pnpm/action-setup@v2
         with:
           version: 10
+
       - uses: actions/setup-node@v3
         with:
           cache: "pnpm"
           node-version-file: ".nvmrc"
+
       - run: pnpm install --frozen-lockfile
-      - name: Build
-        run: pnpm nx run-many --target=build --parallel=3
-      - name: Git Identity
+
+      - name: Set version (if provided)
+        if: ${{ inputs.version != '' }}
+        working-directory: packages/anyway-sdk
+        run: npm version ${{ inputs.version }} --no-git-tag-version
+
+      - name: Read version
+        id: version
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-      - name: Create Version
-        run: pnpm lerna version --no-private --conventional-commits --yes
-      - name: Set Current Version
+          VERSION=$(node -p "require('./packages/anyway-sdk/package.json').version")
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Check version not already published
         run: |
-          CURRENT_VERSION=$(node -p 'require("./lerna.json").version')
-          echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          body_path: "CHANGELOG.md"
-          tag_name: ${{ env.CURRENT_VERSION }}
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-      - name: "NPM Identity"
+          VERSION=${{ steps.version.outputs.version }}
+          if npm view @anyway-sh/node-server-sdk@${VERSION} version 2>/dev/null; then
+            echo "::error::Version ${VERSION} is already published on npm. Please specify a new version."
+            exit 1
+          fi
+          echo "Version ${VERSION} is not yet published, proceeding."
+
+      - name: Build & Publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-      - name: Build for Release
-        run: pnpm nx run-many --target=build --parallel=3
-      - name: Publish
-        run: pnpm lerna publish --no-private from-git --yes
+          bash scripts/publish-release.sh
+
+      - name: Commit version bump
+        if: ${{ inputs.version != '' }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add packages/anyway-sdk/package.json
+          git commit -m "chore: bump version to ${{ steps.version.outputs.version }}"
+          git push
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          generate_release_notes: true
